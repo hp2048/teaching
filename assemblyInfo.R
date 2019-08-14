@@ -35,4 +35,4 @@ listofgroups <- as.list(c("mammalia", "aves", "amphibia", "teleostei"))
 
 assemblySummary <- do.call(rbind,lapply(listofgroups, getGroupInfo, 10))
 
-ggplot(assemblySummary[assemblySummary$attribute=="ungapped_length",], aes(x = ncbitaxid, y=value, fill=group)) + geom_bar(position = "dodge", stat = "identity")
+ggplot(assemblySummary[assemblySummary$attribute=="ungapped_length",], aes(x = ncbitaxid, y=value, fill=group)) + geom_bar(position = "dodge", stat = "identity") + theme(axis.text.x = element_text(angle = 90, hjust = 1))
