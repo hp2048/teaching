@@ -13,3 +13,4 @@ Code snippets used for teaching
   - [Introduction to statistics with R](https://www.youtube.com/playlist?list=PLjgj6kdf_snZv7dk0ktMm7Ch9RFajwKHb)
  4. [Bioconductor for Sequence Analysis](https://www.bioconductor.org/help/course-materials/2015/LearnBioconductorFeb2015/A01.3_BioconductorForSequenceAnalysis.html)
  5. [Biostrings slide deck](http://web1.sph.emory.edu/users/hwu30/teaching/bioc/biostrings.pdf) for basic genomic operations
+ 6. [RNAseq analysis in R (functional enrichment)](https://bioinformatics-core-shared-training.github.io/cruk-summer-school-2018/RNASeq2018/html/06_Gene_set_testing.nb.html)
