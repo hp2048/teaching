@@ -2,13 +2,13 @@ library(biomaRt)
 library(karyoploteR)
 library(GenomicRanges)
 library(pheatmap)
+library(tidyverse)
 
 
 hsmart <- useMart("ensembl", dataset="hsapiens_gene_ensembl")
 
 chickenhomologs <- getBM(attributes = c("ensembl_gene_id", "chromosome_name", "ggallus_homolog_ensembl_gene", "ggallus_homolog_chromosome", "ggallus_homolog_orthology_type"), mart = hsmart)
-chickenhomologs <- chickenhomologs[chickenhomologs$ggallus_homolog_orthology_type=="ortholog_one2one",]
-
+chickenhomologs <- filter(chickenhomologs, ggallus_homolog_orthology_type == "ortholog_one2one")
 hs2gg <- table(chickenhomologs$chromosome_name, chickenhomologs$ggallus_homolog_chromosome)
 pheatmap(hs2gg, cluster_rows = F, cluster_cols = F)
 
