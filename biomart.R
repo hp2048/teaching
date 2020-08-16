@@ -1,6 +1,7 @@
 library(biomaRt)
 library(karyoploteR)
 library(GenomicRanges)
+library(pheatmap)
 
 
 hsmart <- useMart("ensembl", dataset="hsapiens_gene_ensembl")
