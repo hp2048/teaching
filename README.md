@@ -14,3 +14,12 @@ Code snippets used for teaching
  4. [Bioconductor for Sequence Analysis](https://www.bioconductor.org/help/course-materials/2015/LearnBioconductorFeb2015/A01.3_BioconductorForSequenceAnalysis.html)
  5. [Biostrings slide deck](http://web1.sph.emory.edu/users/hwu30/teaching/bioc/biostrings.pdf) for basic genomic operations
  6. [RNAseq analysis in R (functional enrichment)](https://bioinformatics-core-shared-training.github.io/cruk-summer-school-2018/RNASeq2018/html/06_Gene_set_testing.nb.html)
+ 
+ ## Bioinformatics core competencies for undergraduate life sciences education
+
+*Citation:* Wilson Sayres MA, Hauser C, Sierk M, Robic S, Rosenwald AG, Smith TM, et al. (2018) Bioinformatics core competencies for undergraduate life sciences education. PLoS ONE 13(6): e0196878. https://doi.org/10.1371/journal.pone.0196878
+
+[Table 2](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0196878) in the above citation defines core competencies in bioinformatics for ALL life scientists.
+
+
+
