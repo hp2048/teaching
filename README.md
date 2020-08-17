@@ -1,4 +1,4 @@
-# teaching
+# Teaching
 Code snippets used for teaching
 
 
