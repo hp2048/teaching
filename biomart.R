@@ -1,3 +1,5 @@
+.libPaths(c(.libPaths(), "/usr/local/lib/R/site-library", "/usr/lib/R/site-library", "/usr/lib/R/library"))
+
 library(biomaRt)
 library(karyoploteR)
 library(GenomicRanges)
