@@ -91,4 +91,29 @@ highexp <- gost(filter(pcoding, score>492) %>% pull(name), organism = "hsapiens"
 highexp <- highexp$result[,c(1:12)]
 filter(highexp, source == "GO:BP")
 
+###NCBI data
+##will study divergence between different corona virus groups
+library(Biostrings)
+library(philentropy)
+
+files <- list.files("~/ncbi-genomes-2020-08-19/", full.names = T)
+files <- files[grep("_genomic.fna.gz", files)]
+gnames <- list.files("~/ncbi-genomes-2020-08-19/")
+gnames <- gnames[grep("_genomic.fna.gz", gnames)]
+gnames <- gsub("_genomic.fna.gz", "", gnames)
+gnames <- gsub("GCF_009858895.2_ASM985889v3", "SARS-CoV-2", gnames)
+
+getkmerfreq <- function(x) {
+      genomeseq <- readDNAStringSet(x)
+      kfreq <- oligonucleotideFrequency(genomeseq,9) ##9 mers obtained
+      return(kfreq)
+}
+kmerfreq <- sapply(files, getkmerfreq)
+kmat <- t(as.matrix(kmerfreq))
+covjsd <- JSD(kmat, test.na = TRUE, unit = "log2", est.prob = "empirical")
+row.names(covjsd) <- gnames
+colnames(covjsd) <- gnames
+pheatmap(y)
+
+
 
