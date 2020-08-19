@@ -4,6 +4,9 @@ library(GenomicRanges)
 library(pheatmap)
 library(tidyverse)
 
+##ensembl genome browser
+##Study the evolution of chromosomes in the human genome compared to the chicken genome
+##With X chromosome as an example
 ##list datasets availables for use from ensembl biomart
 emart <- useMart("ensembl")
 listDatasets(emart)
@@ -19,7 +22,6 @@ hsattr %>% filter(page=="homologs" & grepl("gallus", name))
 
 ##get chicken information column names
 chicken_columns <- hsattr %>% filter(page=="homologs" & grepl("gallus", name)) %>% pull(name)
-
 chickenhomologs <- getBM(attributes = c("ensembl_gene_id", "chromosome_name", chicken_columns), mart = hsmart)
 colnames(chickenhomologs)
 
@@ -39,20 +41,54 @@ scale_fill_viridis_b() +
 theme_bw()
 
 ##ggmart <- useMart("ensembl", dataset="ggallus_gene_ensembl")
-
+##learn about gene density in different regions of the human genome
+##this shows us that genome is not random and it has a specific structure
 hsproteingenes <- getBM(attributes = c("ensembl_gene_id", "hgnc_symbol", "chromosome_name", "start_position"),
       filters = "transcript_biotype",
       values = c("protein_coding"),
       mart = hsmart)
 hsproteingenes$chromosome_name <- paste("chr",hsproteingenes$chromosome_name,sep="")
 
-hsgenesranges <- makeGRangesFromDataFrame(hsproteingenes, start.field = "start_position", end.field = "start_position", seqnames.field = "chromosome_name")
+##hsgenesranges <- makeGRangesFromDataFrame(hsproteingenes, start.field = "start_position", end.field = "start_position", seqnames.field = "chromosome_name")
 
 kp <- plotKaryotype(genome = "hg38")
 kpPlotDensity(kp, data=hsgenesranges, col = "brown", window.size = 1000000)
 kp <- plotKaryotype(genome = "hg38",chromosomes = c("chr1"))
 kpPlotDensity(kp, data=hsgenesranges, col = "brown", window.size = 1000000)
 
-
+###UCSC genome browser
+###study gene expression data from human samples
+###which genes are generally highly expressed
+###which genes are low expressed
+library(rtracklayer)
+library(GenomicRanges)
+library(gprofiler2)
+session <- browserSession("UCSC")
+genome(session) <- "hg38"
+##learn about tracks available for use
 trackNames(ucscTableQuery(session))
+##learn about tables available from that track
+tableNames(ucscTableQuery(session, track="gtexGeneV8"))
+##get expression values for all genes from chr22
+geneexp <- getTable(ucscTableQuery(session, track="gtexGeneV8", range=seqinfo(session), table="gtexGeneV8"))
+##inspect returned information
+colnames(geneexp)
+head(geneexp)
+##check what types of genes are expressed and their expression score distribution
+geneexp %>% filter(score>0) %>% ggplot(aes(x=score,fill=geneType)) + geom_density(alpha=0.5) + facet_wrap(.~geneType) + theme(legend.position='none')
+##subset the data for protein coding genes only
+pcoding <- geneexp %>% filter(geneType == "protein_coding")
+##see how gene expression scores are distributed
+hist(pcoding$score, breaks = 100)
+##identify four quantiles
+quantile(pcoding$score)
+##get gene ontology enrichment for low expressed genes
+lowexp <- gost(filter(pcoding, score<327) %>% pull(name), organism = "hsapiens", custom_bg = pcoding$name)
+lowexp <- lowexp$result[,c(1:12)]
+filter(lowexp, source == "GO:BP")
+##get gene ontology enrichment for low expressed genes
+highexp <- gost(filter(pcoding, score>492) %>% pull(name), organism = "hsapiens", custom_bg = pcoding$name)
+highexp <- highexp$result[,c(1:12)]
+filter(highexp, source == "GO:BP")
+
 
