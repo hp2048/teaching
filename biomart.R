@@ -86,10 +86,12 @@ hist(pcoding$score, breaks = 100)
 quantile(pcoding$score)
 ##get gene ontology enrichment for low expressed genes
 lowexp <- gost(filter(pcoding, score<327) %>% pull(name), organism = "hsapiens", custom_bg = pcoding$name)
+gostplot(lowexp)
 lowexp <- lowexp$result[,c(1:12)]
 filter(lowexp, source == "GO:BP")
 ##get gene ontology enrichment for low expressed genes
 highexp <- gost(filter(pcoding, score>492) %>% pull(name), organism = "hsapiens", custom_bg = pcoding$name)
+gostplot(highexp)
 highexp <- highexp$result[,c(1:12)]
 filter(highexp, source == "GO:BP")
 
