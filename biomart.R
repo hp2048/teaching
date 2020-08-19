@@ -117,7 +117,7 @@ kmat <- t(as.matrix(kmerfreq))
 covjsd <- JSD(kmat, test.na = TRUE, unit = "log2", est.prob = "empirical")
 row.names(covjsd) <- gnames
 colnames(covjsd) <- gnames
-pheatmap(y)
+pheatmap(covjsd)
 
 
 
