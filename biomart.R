@@ -51,7 +51,7 @@ hsproteingenes <- getBM(attributes = c("ensembl_gene_id", "hgnc_symbol", "chromo
       mart = hsmart)
 hsproteingenes$chromosome_name <- paste("chr",hsproteingenes$chromosome_name,sep="")
 
-##hsgenesranges <- makeGRangesFromDataFrame(hsproteingenes, start.field = "start_position", end.field = "start_position", seqnames.field = "chromosome_name")
+hsgenesranges <- makeGRangesFromDataFrame(hsproteingenes, start.field = "start_position", end.field = "start_position", seqnames.field = "chromosome_name")
 
 kp <- plotKaryotype(genome = "hg38")
 kpPlotDensity(kp, data=hsgenesranges, col = "brown", window.size = 1000000)
