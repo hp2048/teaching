@@ -3,7 +3,7 @@
 
 ##load genome sequence library
 library(biovizBase)
-library(BSgeome)
+library(BSgenome)
 library(BSgenome.Hsapiens.UCSC.hg38) 
 library(GenomicRanges)
 
