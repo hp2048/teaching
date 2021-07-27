@@ -42,6 +42,19 @@ geom_tile(stat = "identity") +
 scale_fill_viridis_b() + 
 theme_bw()
 
+##with fractions
+filter(chickenhomologs, ggallus_homolog_orthology_type == "ortholog_one2one") %>% 
+group_by(chromosome_name, ggallus_homolog_chromosome) %>% 
+summarise(homologs = n()) %>% 
+group_by(chromosome_name) %>% 
+summarise(chromosome_name, ggallus_homolog_chromosome, homologs, homologsF = homologs/sum(homologs)) %>% 
+ggplot(aes(x=ggallus_homolog_chromosome, y = chromosome_name)) + 
+geom_tile(aes(fill = homologsF)) + 
+geom_text(aes(label=round(homologsF, 1))) + 
+scale_fill_viridis_b() + 
+theme_bw()
+
+
 ##ggmart <- useMart("ensembl", dataset="ggallus_gene_ensembl")
 ##learn about gene density in different regions of the human genome
 ##this shows us that genome is not random and it has a specific structure
