@@ -112,9 +112,20 @@ filter(highexp, source == "GO:BP")
 ##will study divergence between different corona virus groups
 library(Biostrings)
 library(philentropy)
+library(xml2)
+library(XML)
+library(tidyverse)
 
-files <- list.files("~/ncbi-genomes-2021-07-28/", full.names = T)
-files <- files[grep("_genomic.fna.gz", files)]
+fastafiles <- list.files("~/ncbi-genomes-2021-07-28/", full.names = T)
+fastafiles <- fastafiles[grep("_genomic.fna.gz", fastafiles)]
+fastafiles <- tibble(fnames = fastafiles, asmid = str_match(fastafiles, pattern = "\\S+\\/(\\S+_\\d+\\.\\d)_")[,2])
+
+metadata <- read_xml("~/ncbi-genomes-2021-07-28/assembly_result.xml")
+metadata <- xmlParse(metadata)
+metadata <- bind_cols(xmlToDataFrame(nodes = getNodeSet(metadata, "//AssemblyAccession")), xmlToDataFrame(nodes = getNodeSet(metadata, "//SpeciesName")))
+colnames(metadata) <- c("asmid", "organism")
+metadata <- left_join(metadata, fastafiles)
+
 gnames <- list.files("~/ncbi-genomes-2021-07-28/")
 gnames <- gnames[grep("_genomic.fna.gz", gnames)]
 gnames <- gsub("_genomic.fna.gz", "", gnames)
@@ -125,11 +136,12 @@ getkmerfreq <- function(x) {
       kfreq <- oligonucleotideFrequency(genomeseq,9) ##9 mers obtained
       return(kfreq)
 }
-kmerfreq <- sapply(files, getkmerfreq)
+
+kmerfreq <- sapply(pull(metadata, fnames), getkmerfreq)
 kmat <- t(as.matrix(kmerfreq))
 covjsd <- JSD(kmat, test.na = TRUE, unit = "log2", est.prob = "empirical")
-row.names(covjsd) <- gnames
-colnames(covjsd) <- gnames
+row.names(covjsd) <- pull(metadata, organism)
+colnames(covjsd) <- pull(metadata, organism)
 pheatmap(covjsd)
 
 
