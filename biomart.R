@@ -113,9 +113,9 @@ filter(highexp, source == "GO:BP")
 library(Biostrings)
 library(philentropy)
 
-files <- list.files("~/ncbi-genomes-2020-08-19/", full.names = T)
+files <- list.files("~/ncbi-genomes-2021-07-28/", full.names = T)
 files <- files[grep("_genomic.fna.gz", files)]
-gnames <- list.files("~/ncbi-genomes-2020-08-19/")
+gnames <- list.files("~/ncbi-genomes-2021-07-28/")
 gnames <- gnames[grep("_genomic.fna.gz", gnames)]
 gnames <- gsub("_genomic.fna.gz", "", gnames)
 gnames <- gsub("GCF_009858895.2_ASM985889v3", "SARS-CoV-2", gnames)
