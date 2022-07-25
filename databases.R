@@ -120,13 +120,13 @@ fastafiles <- list.files("~/ncbi-genomes-2022-07-24/", full.names = T)
 fastafiles <- fastafiles[grep("_genomic.fna.gz", fastafiles)]
 fastafiles <- tibble(fnames = fastafiles, asmid = str_match(fastafiles, pattern = "\\S+\\/(\\S+_\\d+\\.\\d)_")[,2])
 
-metadata <- read_xml("~/ncbi-genomes-2021-07-28/assembly_result.xml")
+metadata <- read_xml("~/ncbi-genomes-2022-07-24/assembly_result.xml")
 metadata <- xmlParse(metadata)
 metadata <- bind_cols(xmlToDataFrame(nodes = getNodeSet(metadata, "//AssemblyAccession")), xmlToDataFrame(nodes = getNodeSet(metadata, "//SpeciesName")))
 colnames(metadata) <- c("asmid", "organism")
 metadata <- left_join(metadata, fastafiles)
 
-gnames <- list.files("~/ncbi-genomes-2021-07-28/")
+gnames <- list.files("~/ncbi-genomes-2022-07-24/")
 gnames <- gnames[grep("_genomic.fna.gz", gnames)]
 gnames <- gsub("_genomic.fna.gz", "", gnames)
 gnames <- gsub("GCF_009858895.2_ASM985889v3", "SARS-CoV-2", gnames)
