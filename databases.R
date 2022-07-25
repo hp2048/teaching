@@ -116,7 +116,7 @@ library(xml2)
 library(XML)
 library(tidyverse)
 
-fastafiles <- list.files("~/ncbi-genomes-2021-07-28/", full.names = T)
+fastafiles <- list.files("~/ncbi-genomes-2022-07-24/", full.names = T)
 fastafiles <- fastafiles[grep("_genomic.fna.gz", fastafiles)]
 fastafiles <- tibble(fnames = fastafiles, asmid = str_match(fastafiles, pattern = "\\S+\\/(\\S+_\\d+\\.\\d)_")[,2])
 
