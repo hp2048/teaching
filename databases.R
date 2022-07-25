@@ -136,6 +136,7 @@ getkmerfreq <- function(x) {
       kfreq <- oligonucleotideFrequency(genomeseq,9) ##9 mers obtained
       return(kfreq)
 }
+metadata %>% filter(!is.na(fnames))
 
 kmerfreq <- sapply(pull(metadata, fnames), getkmerfreq)
 kmat <- t(as.matrix(kmerfreq))
