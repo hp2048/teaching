@@ -116,15 +116,20 @@ library(xml2)
 library(XML)
 library(tidyverse)
 
+asmselect <- c("GCF_009858895.2", "GCF_000901155.1", "GCF_003972325.1", "GCF_002985995.1", "GCF_003971785.1", "GCF_000926915.1", "GCF_001725835.1", "GCF_012271745.1", "GCF_012271735.1", "GCF_012271625.1", "GCF_001501415.1", "GCF_000896935.1")
+
 fastafiles <- list.files("~/ncbi-genomes-2022-07-24/", full.names = T)
 fastafiles <- fastafiles[grep("_genomic.fna.gz", fastafiles)]
 fastafiles <- tibble(fnames = fastafiles, asmid = str_match(fastafiles, pattern = "\\S+\\/(\\S+_\\d+\\.\\d)_")[,2])
+
 
 metadata <- read_xml("~/ncbi-genomes-2022-07-24/assembly_result.xml")
 metadata <- xmlParse(metadata)
 metadata <- bind_cols(xmlToDataFrame(nodes = getNodeSet(metadata, "//AssemblyAccession")), xmlToDataFrame(nodes = getNodeSet(metadata, "//SpeciesName")))
 colnames(metadata) <- c("asmid", "organism")
 metadata <- left_join(metadata, fastafiles)
+metadata <- metadata %>% filter(!is.na(fnames) & asmid %in% asmselect)
+
 
 gnames <- list.files("~/ncbi-genomes-2022-07-24/")
 gnames <- gnames[grep("_genomic.fna.gz", gnames)]
@@ -136,14 +141,13 @@ getkmerfreq <- function(x) {
       kfreq <- oligonucleotideFrequency(genomeseq,9) ##9 mers obtained
       return(kfreq)
 }
-metadata %>% filter(!is.na(fnames))
 
 kmerfreq <- sapply(pull(metadata, fnames), getkmerfreq)
 kmat <- t(as.matrix(kmerfreq))
 covjsd <- JSD(kmat, test.na = TRUE, unit = "log2", est.prob = "empirical")
 row.names(covjsd) <- pull(metadata, organism)
 colnames(covjsd) <- pull(metadata, organism)
-pheatmap(covjsd)
+pheatmap(covjsd, display_numbers = T)
 
 
 
