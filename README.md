@@ -4,7 +4,7 @@ Code snippets used for teaching
 
 ## R for beginners
 
-1. Rafael A. Irizarry has a comprehensive [book](https://rafalab.github.io/dsbook/) for the use of R in data science. 
+1. Rafael A. Irizarry has a comprehensive [book]([https://rafalab.github.io/dsbook](https://rafalab.dfci.harvard.edu/dsbook-part-1/)/) for the use of R in data science. 
 2. Emmanuel Paradis has contributed a nice [document](https://cran.r-project.org/doc/contrib/Paradis-rdebuts_en.pdf) for beginners.
 3. Very quick summary is available [here](http://www.sthda.com/english/wiki/r-basics-quick-and-easy)
 4. There are plenty of useful videos on YouTube (increase the playback speed if you are in a hurry)
