@@ -29,5 +29,8 @@ Code snippets used for teaching
 
 [Table 2](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0196878) in the above citation defines core competencies in bioinformatics for ALL life scientists.
 
+## High performance computing for bioinformatics 
+
+1. Melbourne Bioinformatics [hands-on training](https://www.melbournebioinformatics.org.au/tutorials/tutorials/hpc/hpc/)
 
 
